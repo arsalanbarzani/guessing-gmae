@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Person Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            font-size:x-large;
+            text-decoration:wavy;
+            
+            
+
+        }
+        img {
+            max-width: 30%;
+            margin-top: 10px;
+            border-radius: 20px;
+            transition: transform 0.5s linear;
+            
+        }
+
+/*category button*/
+        
+        #button1{                                               
+            background-color:rgb(5, 68, 12); 
+            border: none; 
+            color: white; 
+            padding:  50px; 
+            margin-bottom: 50px;
+            margin-left: 90px;
+            margin-right: 50px;
+            text-align: center; 
+            display: inline-block;
+            font-size: 20px; 
+            border-bottom-left-radius: 70px; 
+            border-top-left-radius: 70px;
+            
+            width: 30%;
+           
+            
+        }
+        #button2{                                               
+            background-color:rgb(168, 30, 3); 
+            border: none; 
+            color: white; 
+            padding:  50px; 
+            margin-bottom: 50px;
+            margin-left: 50px;
+            margin-right: 50px;
+            text-align: center; 
+            display: inline-block;
+            font-size: 20px; 
+            border-bottom-left-radius: 70px; 
+            border-top-left-radius: 70px;
+            
+            width:30%;
+        }
+        #button3{                                               
+            background-color:rgb(71, 7, 131); 
+            border: none; 
+            color: white; 
+            padding:  50px; 
+            margin-bottom: 50px;
+            margin-left: 90px;
+            margin-right: 50px;
+            text-align: center; 
+            display: inline-block;
+            font-size: 20px; 
+            border-bottom-left-radius: 70px; 
+            border-top-left-radius: 70px;
+            
+            width:30%;
+        }
+        #button4{                                               
+            background-color:rgb(7, 111, 156); 
+            border: none; 
+            color: white; 
+            padding:  50px; 
+            margin-bottom: 50px;
+            margin-left: 50px;
+            margin-right: 50px;
+            text-align: center; 
+            display: inline-block;
+            font-size: 20px; 
+            border-bottom-left-radius: 70px; 
+            border-top-left-radius: 70px;
+            
+            width:30%;
+            
+        }
+    
+
+
+
+/* Add more styles for other buttons if needed */
+
+             
+        /*choices button*/
+        button{
+          font-family:unset;
+          font-size: 21px;
+          color: rgb(222, 223, 223);
+          width: 50%;
+          height: 1000%;
+          background-color:rgb(77, 0, 150);  
+          margin: 10px;
+          padding: 5px;
+          border-radius: 10px;
+          border: none;
+          position:relative;
+          transition: transform 0.5s linear;
+          cursor:pointer;
+        }
+    
+        button:hover {
+            color: rgb(0, 0, 0);
+            transform: translateX(10px); /* You can adjust the distance it moves */
+    }
+
+        ul {
+            display: flex;
+            gap: .10rem;
+            image-resolution:initial;
+            list-style-type: none;
+            background-color: transparent;
+            overflow: hidden;
+        }
+
+li a {
+    display: inline-block;
+    padding: .3rem 1rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+    border-radius: 100px;
+    line-height: 2;
+    transition: .3s;
+    opacity: 0;
+    animation: navani .3s ease forwards;
+    animation-delay: calc(.15s * var(--navAni));
+}
+.nav-link {
+            
+            
+          text-align:left;
+            border: none;
+            font-size:large;
+            text-justify: inter-cluster;
+   }
+
+   
+  
+
+
+
+
+</style>
+
+
+  
+
+    <div id="gameContainer">
+        
+        <div id="categorySelection">
+              <div class="container">
+         </div>
+            <h2>Select a Category</h2>
+            <button     id="button1" onclick="startGame('football')">Football Player</button>
+            <button id="button2" onclick="startGame('actor')">Actor & Reporter</button>
+            <button id="button3"  onclick="startGame('singer')">Singer</button>
+            <button id="button4"  onclick="startGame('presidents')">presidents of country</button>
+        
+    </div>
+
+        <div id="game" style="display: none;">
+            <h2 id="categoryTitle"></h2>
+            <img id="personImage" src="" alt="Person Image">
+            <div id="options"></div>
+            <p id="result"></p>
+        </div>
+    </div>
+    <div id="timer"></div>
+ 
+       
+       
+
+    <script>
+        const categories = {
+            presidents: [
+                {correctOption:"Volodymyr Zelensky", options: ["Jou Baiden","Joseph Ngutta","Volodymyr Zelensky","Abdelmadjid Tebboune"], image:"https://th.bing.com/th/id/R.b0e818e36605ae8d6304c4737ee77ef8?rik=wpDS9yC6ckSw%2fw&pid=ImgRaw&r=0"},
+                {correctOption:"Bajram Begaj", options: ["Bajram Begaj","Merkl","Justin Trudeau","Xi Jinping"], image:"https://th.bing.com/th/id/OIP.Cm8TM_IF0chGWgRapTvBDQHaE7?rs=1&pid=ImgDetMain"},
+                 {correctOption:"Nechirvan Barzani", options: ["Abdul Latif Rashid","Mohamed bin zayd","Qubad Talabani","Nechirvan Barzani"], image:"https://www.thestatesman.com/wp-content/uploads/2019/05/nachirvan-barzani-1.jpg"},
+                {correctOption:"Justin Trudeau", options: ["Ram Nath Kovind","Justin Trudeau","Yoshihide","Vladimir Putin"], image:"https://gumlet.assettype.com/freepressjournal/2020-01/462eefca-788d-48c9-a3bb-6a429dbdbefe/Justin_Trudeau.jpg"},
+                {correctOption:"Boris Johnson", options: ["King Mohammed","Kais Saied","Mario Draghi","Boris Johnson"], image:"https://d.newsweek.com/en/full/480250/boris-johnson.jpg"},
+                {correctOption:"Frank-Walter", options: ["Pedro Sánchez","Frank-Walter"," Viktor Orbán","Chancellor Sebastian"], image:"https://www.spdfraktion.de/system/files/images/person_steinmeier_pressefoto_thomas-koehler-photothek_original.jpg"},
+                {correctOption:"Emmanuel Macron", options: ["Emmanuel Macron","Mette Frederiksen","Mark Rutte"," Alexander De Croo"], image:"https://th.bing.com/th/id/R.13bd50b1bd785059cfbcdf466010336d?rik=oPrCNdK9XKPZxg&pid=ImgRaw&r=0"},
+                {correctOption:"Yoon Suk Yeol", options: ["Guy Parmelin","Sanna Marin","Yoon Suk Yeol","Kim Jong Un"], image:"https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ihtQ4hyBKMsc/v1/-1x-1.jpg"},
+                {correctOption:"Mohamed bin Zayed", options: ["Mohammed bin Salman"," Bashar al-Assad","Emir Tamim","Mohamed bin Zayed"], image:"https://th.bing.com/th/id/OIP.cln0BtYkQcFut2TgU_Ed4gHaE9?rs=1&pid=ImgDetMain"},
+                
+
+            ],
+            football: [
+               {correctOption: "Antony",options:["Antony","Garnacho","Diallo",],image:"https://e1.365dm.com/22/09/1920x1080/skysports-man-utd-antony-england_5887746.jpg?20220904192917"},
+               {correctOption:"Bellingham" , options: ["Bellingham","Valverdi","Townsed",] , image:"https://imgresizer.eurosport.com/unsafe/2560x1440/filters:format(jpeg)/origin-imgresizer.eurosport.com/2023/08/25/3770294-76695808-2560-1440.jpg"},
+               {correctOption:"Sherko Karim", options: ["Sherko Karim","Ali","Sarhang Muhsen",], image:"https://th.bing.com/th/id/OIP.tya2YkAu3frXO-4_aZpfhAHaE8?rs=1&pid=ImgDetMain"},
+               {correctOption:"Gavi" , options: ["Pedri","Gavi","zaniolo",] , image:"https://cdn.vox-cdn.com/thumbor/pVcTkPrR4chBo34mN2E5iY8GK7o=/0x0:5092x3394/1520x1013/filters:focal(2413x413:3227x1227)/cdn.vox-cdn.com/uploads/chorus_image/image/71360067/1413502772.0.jpg"},
+               {correctOption:"Havertz" , options: ["Saka","Jeiolntino","Havertz",] , image:"https://content1.promiflash.de/article-images/video_1080/kai-havertz-spielt-fussball.jpg"},
+               {correctOption:"Theo" , options: ["Theo","Turam","Lucas"] , image:"https://th.bing.com/th/id/R.88b5ba3023c2f0a909b014d70c56eb03?rik=vwZr8HQyXXekbw&pid=ImgRaw&r=0"},
+               {correctOption:"Aso Rostam", options: ["Alaa Ali","Ali shaxawan","Aso Rostam"], image:"https://kirkuknow.com/uploads/2022/asorostam-bo-roishtn.jpg"},
+               {correctOption:"Azmoun" , options: ["Mikhtaryan","Azmoun","Josuelo",] , image:"https://th.bing.com/th/id/R.439e5cb2fece256f7afd6b179aa104fa?rik=eROpRIYlYu1S9A&pid=ImgRaw&r=0"},
+               {correctOption:"De Ligt" , options: ["Garcia","De Ligt","Enzo"] , image:"https://th.bing.com/th/id/OIP.PSHJ2EkunohovBZXAIBaagHaEK?rs=1&pid=ImgDetMain"},
+               {correctOption:"Onana" , options: ["Onana","Mendy","Gomis",] , image:"https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/blt10f989d85da01601/649c3fa751149e5c90e4caf3/Andr%C3%A9-Onana.jpeg?auto=webp&format=pjpg&width=3840&quality=60"},
+               {correctOption:"Grealish" , options: ["Cancelo","Grealish","felix"] , image:"https://cdn.sportslumo.com/wp-content/uploads/2021/08/21221043/Jack-Grealish-compressed.jpg"},
+               {correctOption:"Martinez" , options: ["Martinez","pickford","pope"] , image:"https://th.bing.com/th/id/OIP.DLsdUAAu11fvrb5WOCLkFAHaDt?rs=1&pid=ImgDetMain"},
+               {correctOption:"Dovbyk" , options: ["Dovbyk","Tysngok","Shurle"] , image:"https://www.elgoldigital.com/wp-content/uploads/2023/11/dovbyk11.jpg"},
+               {correctOption:"De Jong" , options: ["De Jong","Van Debeek","Wijnaldom"] , image:"https://www.fcbarcelona.com/fcbarcelona/photo/2022/03/01/bc4a332d-0690-4acc-890b-668d2f6d59ba/DE-JONG.jpg"},
+            ],
+
+            actor: [
+            {correctOption:"Ana De Armas" , options:["Kate Winslet","Shannon Whirry:","Ana De Armas"],image:"https://i.redd.it/2o5cxbazeyrz.jpg"},
+            {correctOption:"Kevin Mooney" , options:["Kevin Mooney","Brad bitt","Michael Caine"],image:"https://th.bing.com/th/id/R.691bc3902b675ea596846b2195692fd8?rik=84UvMqior3nHYg&pid=ImgRaw&r=0&sres=1&sresct=1"},
+            {correctOption:"Engin Altan" , options:["Ali Yoco","Engin Altan","Kann"],image:"https://wallpapercave.com/wp/wp6390318.jpg",},
+            {correctOption:"Robert Downey" , options:["Robert Downey","Leonardo DiCaprio","Will Smith"],image:"https://res.cloudinary.com/jerrick/image/upload/c_scale,q_auto/hswoz4myvsksgokjplqi.jpg"},
+            {correctOption:"Elsa" , options:["Anna","Olaf","Elsa"],image:"https://th.bing.com/th/id/R.26604caa7442474b6454625afff03f45?rik=2SdxMkNGArjrug&pid=ImgRaw&r=0",},
+            {correctOption:"Banu Dlshad" , options:["Shahyan Tahsin","Banu Dlshad","Rozhin Mahdi"],image:"https://www.rudaw.net/Library/Programs/Images/43de-22042021115934-2.png?mode=crop&quality=70&rand=1&scale=both&w=850&h=462",},
+            {correctOption:"Natalia Alianovna" , options:["Julia Roberts","Emma Watson","Natalia Alianovna"],image:"https://th.bing.com/th/id/R.bc23fc0532dbbcd5abea7ebd567f0d46?rik=blREU01zPbaXvQ&riu=http%3a%2f%2fimages4.fanpop.com%2fimage%2fphotos%2f23100000%2fNatasha-Romanov-Black-Widow-female-ass-kickers-23126967-2560-1707.jpg&ehk=%2b60CnCh8IkOO00Ttr3WR%2fzuIHy4AFxvTm%2f5NZwPhbIw%3d&risl=&pid=ImgRaw&r=0",},
+            {correctOption:"Luca" , options:["Kristofer","Luca","Alberto"],image:"https://th.bing.com/th/id/OIP.8nUah81DFlJOF5lYB-pPOwHaD-?rs=1&pid=ImgDetMain",},
+            {correctOption:"Bahman Ghubadi", options: ["Ranj Sangawi","Bahman Ghubadi","Nizar"], image:"https://th.bing.com/th/id/OIP.yhBvlxa85cVtwWgdhipG7gHaEL?rs=1&pid=ImgDetMain"},
+            {correctOption:"Soran Ibrahim", options: ["Muhamed Ali","Ahmed","Soran Ibrahim"], image:"https://www.filmneweurope.com/media/k2/items/cache/d9ac3c9378909de234fb49bbac86ec44_XL.jpg"},
+            {correctOption:"Emila Clarck", options: ["Emila Clarck","sophie Turner","Nathalie"], image:"https://wallpapercave.com/wp/wp1924672.jpg"},
+            {correctOption:"Joe Gardner", options: ["Dez","Joe Gardner","Paul"], image:"https://i.cbc.ca/1.5869725.1610459324!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/joe-gardner-pixar-soul.jpg"},
+            
+          
+       
+                
+            ],
+            singer: [
+            {correctOption:"Hozan Dino" , options:["Diyar Dersim","Mem Ararat","Hozan Dino","Aras Ardalan"],image:"https://th.bing.com/th/id/R.a63d32314abf7f0753ffb45a08085f79?rik=d%2fWbW%2fQWBFVr1w&riu=http%3a%2f%2favestakurd.net%2fwp-content%2fuploads%2f2020%2f09%2fdino.png&ehk=OFfb90rUIlUXk9D%2fZiJr%2fSUMjcJxodcTIwMaUp2whbQ%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"},
+            {correctOption:"2pac" , options:["2pac","50cent","21savage","24kGolden"],image:"https://th.bing.com/th/id/R.b7c7cb5979247eade3c55a1616bcb9b2?rik=m9ZuEd9aM9X8CQ&pid=ImgRaw&r=0"},
+            {correctOption:"Sherine" , options:["Nancy Ajram","Elissa","Najwa Karam","Sherine"],image:"https://1.bp.blogspot.com/-q3vvkYdqpdU/XJjWzYNCRYI/AAAAAAAAmks/gVshK9EGliAr5sxu5jJ49W172R_8eDdigCLcBGAs/s1600/Sherine%2B.jpg",},
+            {correctOption:"Berfin" , options:["Berfin","Rewshen","Shahriban","Melisa"],image:"https://www.nusaybinim.com/upload/icerik/nusaybinli-sanatci-berfin-aktay-waar-tv-ye-konuk-oldu-1606641900.jpg"},
+            {correctOption:"Dua Lipa", options: ["Adele","Dua Lipa","Sia","Bela poarch"], image:"https://i0.wp.com/decider.com/wp-content/uploads/2020/11/Dua-Lipa-.jpg?quality=90&strip=all&ssl=1"},
+            {correctOption:"Humayun Shajaryan", options: ["Humayun Shajaryan","Arash","Moien Z","Ragheb"], image:"https://media.mehrnews.com/d/2017/01/07/4/2329951.jpg?ts=1486462047399"},
+            {correctOption:"Karwan Kamil", options: ["Nikar Kamil ","Karwan Kamil","Blnd ibrahim","Haval ibrahim"], image:"https://i.ytimg.com/vi/_I2mlebw6MU/hqdefault.jpg"},
+            {correctOption:"Lana Del Rey", options: ["Selena Gomiz","Doja Cat","Lana Del Rey","Halsey"], image:"https://www.nme.com/wp-content/uploads/2019/10/GettyImages-1173237797_lana_del_rey_2000.jpg"},
+            {correctOption:"Charlie Puth", options: ["Benjamin","Ed Shrein","Ali Gate","Charlie Puth"], image:"https://th.bing.com/th/id/R.39f6f33f0ee26f6fc18e856f189a9bea?rik=PnmieP7UrlmBPQ&pid=ImgRaw&r=0"},
+            {correctOption:"", options: ["","","",""], image:""},
+            {correctOption:"", options: ["","","",""], image:""},
+            {correctOption:"Navid Zardi", options: ["Hardi Salami","Navid Zardi","Aryas","Harem Salah"], image:"https://th.bing.com/th/id/R.24236784a834abf20b86d82b31eef45f?rik=pmkLTqTgP8%2baqg&pid=ImgRaw&r=0"},
+            {correctOption:"", options: ["","","",""], image:""},
+            {correctOption:"", options: ["","","",""], image:""},
+            {correctOption:"", options: ["","","",""], image:""},
+        
+            ],
+        };
+
+        let currentCategory;
+        let currentImageIndex;
+        let correctAnswer;
+        let timer;
+        let remainingSeconds;
+        const timerDuration = 10000; 
+
+        function startGame(category) {
+            currentCategory = category;
+
+            // Shuffle the images for the selected category
+            categories[currentCategory] = shuffleArray(categories[currentCategory]);
+
+            currentImageIndex = 0;
+            showImage();
+            startTimer();
+        }
+
+        function startTimer() {
+    remainingSeconds = timerDuration / 1000; // Convert milliseconds to seconds
+    elapsedSeconds = 0;
+    updateTimerDisplay();
+
+    timer = setInterval(() => {
+        remainingSeconds--;
+        elapsedSeconds++;
+        updateTimerDisplay();
+
+        if (remainingSeconds === 0) {
+            clearInterval(timer);
+            document.getElementById('result').innerText = 'Time Up! Try Again';
+            setTimeout(() => {
+                resetGame();
+            }, 3000);
+        }
+    }, 1000); // Update every 1 second
+}
+       
+
+function updateTimerDisplay() {
+    document.getElementById('timer').innerText = ` ${remainingSeconds} `;
+}
+
+        function checkAnswer(selectedOption) {
+            clearInterval(timer); // Clear the timer when an answer is selected
+
+            const resultMessage = document.getElementById('result');
+            if (selectedOption === correctAnswer) {
+                resultMessage.innerText = 'Well Done';
+                setTimeout(() => {
+                    nextImage();
+                    startTimer(); // Start the timer for the next question
+                }, 1000);
+            } else {
+                resultMessage.innerText = 'Wrong Answer, Try Again';
+                setTimeout(() => {
+                    resetGame();
+                }, 3000);
+            }
+        }
+
+    function getRandomImageIndex() {
+        const totalImages = categories[currentCategory].length;
+        return Math.floor(Math.random() * totalImages);
+    }
+
+
+        function showImage() {
+        const imageObj = categories[currentCategory][currentImageIndex];
+        document.getElementById('categoryTitle').innerText = '';
+        document.getElementById('personImage').src = imageObj.image;
+
+        correctAnswer = imageObj.correctOption;
+
+        const optionsContainer = document.getElementById('options');
+        optionsContainer.innerHTML = '';
+
+        // Shuffle the options array
+        const shuffledOptions = shuffleArray(imageObj.options);
+
+        shuffledOptions.forEach(option => {
+            const button = document.createElement('button');
+            button.innerText = option;
+            button.onclick = () => checkAnswer(option);
+            optionsContainer.appendChild(button);
+        });
+
+        document.getElementById('result').innerText = '';
+        document.getElementById('gameContainer').style.display = 'block';
+        document.getElementById('categorySelection').style.display = 'none';
+        document.getElementById('game').style.display = 'block';
+    }
+
+    function shuffleArray(array) {
+        const shuffledArray = array.slice(); // Create a copy of the original array
+        for (let i = shuffledArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]]; // Swap elements
+        }
+        return shuffledArray;
+    }
+   
+        
+        
+        function nextImage() {
+    currentImageIndex++;
+
+    if (currentImageIndex < categories[currentCategory].length) {
+        showImage();
+    } else {
+        // All images in the category are done
+        const allImagesDone = currentImageIndex === categories[currentCategory].length;
+
+        if (allImagesDone) {
+            // Shuffle images and start over or end the game
+            categories[currentCategory] = shuffleArray(categories[currentCategory]);
+            currentImageIndex = 0;
+            resetGame();
+        } else {
+            showImage();
+        }
+    }
+}
+
+        function resetGame() {    //back to catagories and start again 
+            
+            document.getElementById('game').style.display = 'none';
+            document.getElementById('categorySelection').style.display = 'block';
+            currentImageIndex = 0;
+        }
+        
+        
+    </script>
+
+</body>
+</html>
+
+
+
+
+
